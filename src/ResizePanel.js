@@ -54,7 +54,7 @@ class ResizePanel extends React.Component {
     if (this.state.size !== minSize) {
       this.setState({
         ...this.state,
-        size: minSize
+        size: minSize,
       });
     } else {
       // If our resizing has left the parent container's content overflowing
@@ -69,7 +69,7 @@ class ResizePanel extends React.Component {
           ...this.state,
           size: isHorizontal
             ? actualContent.clientWidth - overflow
-            : actualContent.clientHeight - overflow
+            : actualContent.clientHeight - overflow,
         });
       }
     }
@@ -91,14 +91,14 @@ class ResizePanel extends React.Component {
   render() {
     const dragHandlers = {
       onDrag: this.handleDrag,
-      onStop: this.handleDragEnd
+      onStop: this.handleDragEnd,
     };
     const { direction } = this.props;
     const isHorizontal = this.isHorizontal();
 
     let containerClass = cx({
       ContainerHorizontal: isHorizontal,
-      ContainerVertical: !isHorizontal
+      ContainerVertical: !isHorizontal,
     });
 
     if (this.props.containerClass) {
@@ -115,14 +115,14 @@ class ResizePanel extends React.Component {
       this.props.handleClass ||
       cx({
         ResizeHandleHorizontal: isHorizontal,
-        ResizeHandleVertical: !isHorizontal
+        ResizeHandleVertical: !isHorizontal,
       });
 
     let resizeBarClasses =
       this.props.borderClass ||
       cx({
         ResizeBarHorizontal: isHorizontal,
-        ResizeBarVertical: !isHorizontal
+        ResizeBarVertical: !isHorizontal,
       });
 
     let contentStyle = isHorizontal
@@ -130,7 +130,7 @@ class ResizePanel extends React.Component {
       : { height: this.state.size + "px" };
     let contentClassName = cx("ResizeContent", {
       ResizeContentHorizontal: isHorizontal,
-      ResizeContentVertical: !isHorizontal
+      ResizeContentVertical: !isHorizontal,
     });
 
     let content = [
@@ -141,13 +141,13 @@ class ResizePanel extends React.Component {
         style={contentStyle}
       >
         {React.Children.only(this.props.children)}
-      </div>
+      </div>,
     ];
 
     let handle = (
       <DraggableCore key="handle" {...dragHandlers}>
         <div className={resizeBarClasses}>
-          <div className={handleClasses}>
+          <div className={handleClasses} onClick={this.props.onClick}>
             <span />
           </div>
         </div>
@@ -160,7 +160,6 @@ class ResizePanel extends React.Component {
     } else {
       content.push(handle);
     }
-
     return (
       <div
         ref={this.wrapperRef}
